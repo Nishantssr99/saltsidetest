@@ -1,0 +1,8 @@
+com/saltside/test/entity/Bird.class
+com/saltside/test/Application.class
+com/saltside/test/repository/BirdRepository.class
+com/saltside/test/service/BirdService.class
+com/saltside/test/error/ApiErrorResponse.class
+com/saltside/test/error/GlobalControllerExceptionHandler.class
+com/saltside/test/controller/BirdController.class
+com/saltside/test/propertyvalidation/PropertiesValidator.class
