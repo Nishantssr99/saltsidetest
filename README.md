@@ -8,7 +8,7 @@
 
 - Open http://localhost:8080/birds - List all birds.
 ==================================================
-- Open http://localhost:8080/birds{birdid} - Get details on a specific bird(for simplicationfaction introduced birdId, which is added by user while creation).
+- Open http://localhost:8080/birds/{birdid} - Get details on a specific bird(for simplicationfaction introduced birdId, which is added by user while creation).
 
 
 - Sample Post Request (Please provide unique bird id)
