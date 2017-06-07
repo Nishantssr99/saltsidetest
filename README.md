@@ -12,7 +12,7 @@
 
 
 - Sample Post Request (Please provide unique bird id)
-========================================================
+```
 {
 
 "title": "POST /birds [request]",
@@ -53,8 +53,9 @@
 }
 }
 }
+```
 - Sample Response
-================
+```
 {
     "id": "593883122789340462ab5fde",
     "title": "POST /birds [request]",
@@ -96,7 +97,7 @@
     "birdId": 1,
     "schema": null
 }
-
+```
  - Delete
- ========
+
 http://localhost:8080/birds/{birdid}
