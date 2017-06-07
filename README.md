@@ -1,18 +1,18 @@
 # saltsidetest
-========
-(1) Download the project.
-(2) Need to have maven install and working.
-(3) port 27017 should not be in use.
-(4) run mvn test to run test cases(from the project directory).
-(5) run mvn install to application(from the project directory). 
+==============
+- (1) Download the project.
+- (2) Need to have maven install and working.
+- (3) port 27017 should not be in use.
+- (4) run mvn test to run test cases(from the project directory).
+- (5) run mvn install to application(from the project directory). 
 
-Open http://localhost:8080/birds - List all birds.
-========
-Open http://localhost:8080/birds{birdid} - Get details on a specific bird(for simplicationfaction introduced birdId, which is added by user while creation).
-========
+- Open http://localhost:8080/birds - List all birds.
+==================================================
+- Open http://localhost:8080/birds{birdid} - Get details on a specific bird(for simplicationfaction introduced birdId, which is added by user while creation).
 
-Sample Post Request (Please provide unique bird id)
-========
+
+- Sample Post Request (Please provide unique bird id)
+========================================================
 {
 
 "title": "POST /birds [request]",
@@ -53,8 +53,8 @@ Sample Post Request (Please provide unique bird id)
 }
 }
 }
-Sample Response
-========
+- Sample Response
+================
 {
     "id": "593883122789340462ab5fde",
     "title": "POST /birds [request]",
@@ -97,6 +97,6 @@ Sample Response
     "schema": null
 }
 
- Delete
+ - Delete
  ========
 http://localhost:8080/birds/{birdid}
