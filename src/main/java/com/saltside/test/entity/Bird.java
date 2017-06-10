@@ -9,136 +9,59 @@ import javax.validation.constraints.*;
 import java.util.ArrayList;
 
 /**
+ * Entity class for bird
  * Created by krsna on 03/06/2017.
  */
 @Document(collection = "bird")
 public class Bird {
+
     @Id
     public String id;
-    private String $schema;
-    private String title;
-    private String description;
-    private String type;
-    private ArrayList<String> required;
-    private boolean additionalProperties;
-    private Properties properties;
+    private String name;
+    private String family;
+    private String[] continents;
+    private String added;
+    private Boolean visible;
 
-    @Indexed(unique = true)
-    private int birdId;
-
-    public Bird() {
+    public String getName() {
+        return name;
     }
 
-    public String getSchema() {
-        return this.$schema;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setSchema(String $schema) {
-        this.$schema = $schema;
+    public String getFamily() {
+        return family;
     }
 
-
-    public String getTitle() {
-        return this.title;
+    public void setFamily(String family) {
+        this.family = family;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String[] getContinents() {
+        return continents;
     }
 
-
-    public String getDescription() {
-        return this.description;
+    public void setContinents(String[] continents) {
+        this.continents = continents;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getAdded() {
+        return added;
     }
 
-
-    public String getType() {
-        return this.type;
+    public void setAdded(String added) {
+        this.added = added;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public Boolean isVisible() {
+        return visible;
     }
 
-
-    public ArrayList<String> getRequired() {
-        return this.required;
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
     }
 
-    public void setRequired(ArrayList<String> required) {
-        this.required = required;
-    }
-
-
-    public boolean getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperties(boolean additionalProperties) {
-        this.additionalProperties = additionalProperties;
-    }
-
-
-    public Properties getProperties() {
-        return this.properties;
-    }
-
-    public void setProperties(Properties properties) {
-        this.properties = properties;
-    }
-
-    public int getBirdId() {
-        return birdId;
-    }
-
-    public void setBirdId(int birdId) {
-        this.birdId = birdId;
-    }
 
 }
-
-
-/*
-
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "POST /birds [request]",
-  "description": "Add a new bird to the library",
-  "type": "object",
-  "required": [
-    "name",
-    "family",
-    "continents"
-  ],
-  "additionalProperties": false,
-  "properties": {
-    "name": {
-      "type": "string",
-      "description": "English bird name"
-    },
-    "family": {
-      "type": "string",
-      "description": "Latin bird family name"
-    },
-    "continents": {
-      "type": "array",
-      "description": "Continents the bird exist on",
-      "minItems": 1,
-      "items": { "type": "string" },
-      "uniqueItems": true
-    },
-    "added": {
-      "type": "string",
-      "description": "Date the bird was added to the registry. Format YYYY-MM-DD"
-    },
-    "visible": {
-      "type": "boolean",
-      "description": "Determines if the bird should be visible in lists"
-    }
-  }
-}
- */

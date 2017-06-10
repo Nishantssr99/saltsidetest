@@ -1,6 +1,7 @@
 package com.saltside.test.error;
 
 /**
+ * Print pretty api exception response
  * Created by krsna on 04/06/2017.
  */
 public class ApiErrorResponse {

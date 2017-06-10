@@ -3,8 +3,10 @@ package com.saltside.test;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.List;
 
 import com.saltside.test.entity.*;
+import com.saltside.test.repository.BirdRepository;
 import com.saltside.test.service.BirdService;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,12 +37,14 @@ import static org.junit.Assert.assertEquals;
 import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilder.json;
 
 /**
+ * Test class for controller
  * Created by krsna on 04/06/2017.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BirdcontrollerTest {
+
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
             Charset.forName("utf8"));
@@ -49,6 +53,9 @@ public class BirdcontrollerTest {
     private int port;
 
     private MockMvc mockMvc;
+
+    @Autowired
+    private BirdService birdService;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -72,6 +79,9 @@ public class BirdcontrollerTest {
 
     }
 
+    /**
+     * test method for creating a bird
+     */
     @Test
     public void createBirds() throws Exception {
         String birdJson = json(createBirdObj());
@@ -80,7 +90,42 @@ public class BirdcontrollerTest {
                 .content(birdJson))
                 .andExpect(status().isCreated());
     }
-
+    /**
+     * test method for creating a bad input bird
+     */
+    @Test
+    public void createBadNameBirds() throws Exception {
+        String birdJson = json(createBadNameBirdObj());
+        this.mockMvc.perform(post("/" + "birds")
+                .contentType(contentType)
+                .content(birdJson))
+                .andExpect(status().isBadRequest());
+    }
+    /**
+     * test method for creating a bad input bird
+     */
+    @Test
+    public void createBadFamilyBirds() throws Exception {
+        String birdJson = json(creatBadFamilyBirdObj());
+        this.mockMvc.perform(post("/" + "birds")
+                .contentType(contentType)
+                .content(birdJson))
+                .andExpect(status().isBadRequest());
+    }
+    /**
+     * test method for creating a bad input bird
+     */
+    @Test
+    public void createBadContinentsBirds() throws Exception {
+        String birdJson = json(createBadContinentBirdObj());
+        this.mockMvc.perform(post("/" + "birds")
+                .contentType(contentType)
+                .content(birdJson))
+                .andExpect(status().isBadRequest());
+    }
+    /**
+     * test method for getting birds
+     */
     @Test
     public void getBirds() throws Exception {
         String birdJson = json(new Bird());
@@ -89,16 +134,26 @@ public class BirdcontrollerTest {
                 .content(birdJson))
                 .andExpect(status().isOk());
     }
-
+    /**
+     * test method for getting one bird  on input parameter
+     */
     @Test
     public void getOneBird() throws Exception {
-        String birdJson = json(new Bird());
-        this.mockMvc.perform(get("/" + "birds" + "/" + 1)
+        String birdJson = json(createBirdObj());
+        this.mockMvc.perform(post("/" + "birds")
+                .contentType(contentType)
+                .content(birdJson))
+                .andExpect(status().isCreated());
+        Iterable<String> birdList = birdService.findAll();
+        String visibleBird = birdList.iterator().next();
+        this.mockMvc.perform(get("/" + "birds" + "/" + visibleBird)
                 .contentType(contentType)
                 .content(birdJson))
                 .andExpect(status().isOk());
     }
-
+    /**
+     * test method for deleting one bird  on input parameter
+     */
     @Test
     public void deleteOneBird() throws Exception {
         String birdJson = json(createBirdObj());
@@ -106,10 +161,12 @@ public class BirdcontrollerTest {
                 .contentType(contentType)
                 .content(birdJson))
                 .andExpect(status().isCreated());
-        this.mockMvc.perform(delete("/" + "birds" + "/" + 1)
+        Iterable<String> birdList = birdService.findAll();
+        String visibleBird = birdList.iterator().next();
+        this.mockMvc.perform(delete("/" + "birds" + "/" + visibleBird)
                 .contentType(contentType)
                 .content(birdJson))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk());
     }
 
     protected String json(Object o) throws IOException {
@@ -119,38 +176,52 @@ public class BirdcontrollerTest {
         return mockHttpOutputMessage.getBodyAsString();
     }
 
+    /**
+     * create a new Bird obj
+     */
     public Bird createBirdObj() {
         Bird bird = new Bird();
-        bird.setTitle("POST /birds [request]");
-        bird.setDescription("Add a new bird to the library");
-        bird.setDescription("object");
-        bird.setBirdId(1);
-        Properties properties = new Properties();
-        Name name = new Name();
-        name.setType("string");
-        name.setDescription("English bird name");
-        Added added = new Added();
-        added.setType("string");
-        added.setDescription("Date the bird was added to the registry. Format YYYY-MM-DD");
-        Visible visible = new Visible();
-        visible.setType("boolean");
-        visible.setDescription("Determines if the bird should be visible in lists");
-        Family family = new Family();
-        family.setDescription("Latin bird family name");
-        Continents continents = new Continents();
-        continents.setDescription("Continents the bird exist on");
-        continents.setMinItems(1);
-        Items items = new Items();
-        items.setType("string");
-        continents.setItems(items);
-        family.setType("string");
-
-        properties.setName(name);
-        properties.setFamily(family);
-        properties.setContinents(continents);
-        properties.setAdded(added);
-        properties.setVisible(visible);
-        bird.setProperties(properties);
+        bird.setName("Peacock");
+        bird.setFamily("Bird");
+        String[] continents = {"Europe", "Asia"};
+        bird.setContinents(continents);
+        bird.setAdded("10-10-2017");
+        bird.setVisible(true);
+        return bird;
+    }
+    /**
+     * create a new Bird obj without name attribute
+     */
+    public Bird createBadNameBirdObj() {
+        Bird bird = new Bird();
+        bird.setFamily("Bird");
+        String[] continents = {"Europe", "Asia"};
+        bird.setContinents(continents);
+        bird.setAdded("10-10-2017");
+        bird.setVisible(true);
+        return bird;
+    }
+    /**
+     * create a new Bird obj without family attribute
+     */
+    public Bird creatBadFamilyBirdObj() {
+        Bird bird = new Bird();
+        bird.setName("Peacock");
+        String[] continents = {"Europe", "Asia"};
+        bird.setContinents(continents);
+        bird.setAdded("10-10-2017");
+        bird.setVisible(true);
+        return bird;
+    }
+    /**
+     * create a new Bird obj without continents attribute
+     */
+    public Bird createBadContinentBirdObj() {
+        Bird bird = new Bird();
+        bird.setName("Peacock");
+        bird.setFamily("Bird");
+        bird.setAdded("10-10-2017");
+        bird.setVisible(true);
         return bird;
     }
 

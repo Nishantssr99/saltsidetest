@@ -1,5 +1,6 @@
 package com.saltside.test.error;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,9 +27,15 @@ public class GlobalControllerExceptionHandler {
         return new ApiErrorResponse(404, 4041, ex.getMessage());
     }
 
+    @ExceptionHandler(value = {JsonMappingException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErrorResponse jsonMappingException(JsonMappingException ex) {
+        return new ApiErrorResponse(400, 4002, ex.getMessage());
+    }
+
     @ExceptionHandler(value = {Exception.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErrorResponse unknownException(Exception ex) {
-        return new ApiErrorResponse(500, 5002, ex.getMessage());
+        return new ApiErrorResponse(400, 4002, "Bad Request");
     }
 }
